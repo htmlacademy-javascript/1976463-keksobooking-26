@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Роберт Лейфман](https://up.htmlacademy.ru/javascript/26/user/1976463).
-* Наставник: `Неизвестно`.
+* Наставник: [Антон Попов](https://htmlacademy.ru/profile/joker).
 
 ---
 
