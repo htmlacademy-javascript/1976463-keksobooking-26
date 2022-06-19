@@ -24,7 +24,5 @@ function getMultipleElements(elements) {
   return elementsList;
 }
 
-export {getRandomInt};
-export {getRandomFloat};
-export {getRandomElement};
-export {getMultipleElements};
+export {getRandomInt, getRandomFloat, getRandomElement, getMultipleElements};
+
