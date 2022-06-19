@@ -84,7 +84,6 @@ similarAdverts.forEach(({author: {avatar}, offer: {title, address, price, type, 
       featureItem.remove();
     }
   });
-  console.log(similarAdvert);
   testMap.append(similarAdvert);
 });
 
