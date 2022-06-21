@@ -1,5 +1,5 @@
 import {createMultipleAdverts} from './data.js';
-import './generator.js';
+import {generateAdvertElements} from './generator.js';
 
 const ADVERTS_NUMBER = 10;
-createMultipleAdverts(ADVERTS_NUMBER);
+generateAdvertElements(createMultipleAdverts(ADVERTS_NUMBER));
