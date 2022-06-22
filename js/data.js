@@ -1,7 +1,4 @@
-import {getRandomInt} from './utils.js';
-import {getRandomFloat} from './utils.js';
-import {getRandomElement} from './utils.js';
-import {getMultipleElements} from './utils.js';
+import {getRandomInt, getRandomFloat, getRandomElement, getMultipleElements } from './utils.js';
 
 const TITLES = [
   'Квартира в центре',
@@ -90,4 +87,6 @@ const createAdvert = (index) => {
   return advert;
 };
 
-export {createAdvert};
+const createMultipleAdverts = (count) => Array.from({length: count}, (x, i) => createAdvert(i));
+
+export {createMultipleAdverts};
