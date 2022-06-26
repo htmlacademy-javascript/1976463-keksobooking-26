@@ -989,6 +989,11 @@ fieldset {
   opacity: 0.6;
 }
 
+.validation__error-text {
+  color: red;
+  font-size: 10px;
+}
+
 .visually-hidden {
   position: absolute;
 
