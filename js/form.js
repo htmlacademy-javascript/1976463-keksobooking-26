@@ -22,7 +22,8 @@ function validateRooms () {
 
 function onSelectChange (evt) {
   if (evt.target.nodeName === 'SELECT') {
-    pristine.validate();
+    pristine.validate(roomsField);
+    pristine.validate(capacityField);
   }
 }
 
