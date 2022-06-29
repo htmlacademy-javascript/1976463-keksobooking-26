@@ -36,50 +36,20 @@ pristine.addValidator(capacityField, validateRooms);
 const priceField = form.querySelector('[name="price"]');
 const typeField = form.querySelector('[name="type"]');
 
+const TypeDictionary = {
+  'bungalow': '0',
+  'flat': '1000',
+  'hotel': '3000',
+  'house': '5000',
+  'palace': '10000'
+};
+
 typeField.addEventListener('change', () => {
-  switch (typeField.value) {
-    case ('flat'):
-      priceField.placeholder = '1000';
-      break;
-    case ('bungalow'):
-      priceField.placeholder = '0';
-      break;
-    case ('hotel'):
-      priceField.placeholder = '3000';
-      break;
-    case ('house'):
-      priceField.placeholder = '5000';
-      break;
-    case ('palace'):
-      priceField.placeholder = '10000';
-      break;
-    default:
-      break;
-  }
+  priceField.placeholder = TypeDictionary[typeField.value];
 });
 
-const validatePrice = function () {
-  let isTrue = false;
-  switch (typeField.value) {
-    case ('flat'):
-      isTrue = priceField.value >= 1000 && priceField.value <= 100000;
-      break;
-    case ('bungalow'):
-      isTrue = priceField.value > 0 && priceField.value <= 100000;
-      break;
-    case ('hotel'):
-      isTrue = priceField.value >= 3000 && priceField.value <= 100000;
-      break;
-    case ('house'):
-      isTrue = priceField.value >= 5000 && priceField.value <= 100000;
-      break;
-    case ('palace'):
-      isTrue = priceField.value >= 10000 && priceField.value <= 100000;
-      break;
-    default:
-      break;
-  }
-  return isTrue;
+const validatePrice = function (price) {
+  return price >= TypeDictionary[typeField.value] && price <= 100000;
 };
 
 pristine.addValidator(priceField, validatePrice, 'цена указана неверно');
