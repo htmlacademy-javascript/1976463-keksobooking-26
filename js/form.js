@@ -33,6 +33,42 @@ capacityField.addEventListener('change', onSelectChange);
 pristine.addValidator(roomsField, validateRooms, 'неподходящее число комнат для стольких гостей');
 pristine.addValidator(capacityField, validateRooms);
 
+const priceField = form.querySelector('[name="price"]');
+const typeField = form.querySelector('[name="type"]');
+
+const TypeDictionary = {
+  'bungalow': '0',
+  'flat': '1000',
+  'hotel': '3000',
+  'house': '5000',
+  'palace': '10000'
+};
+
+typeField.addEventListener('change', () => {
+  priceField.placeholder = TypeDictionary[typeField.value];
+});
+
+const validatePrice = function (price) {
+  return price >= TypeDictionary[typeField.value] && price <= 100000;
+};
+
+pristine.addValidator(priceField, validatePrice, 'цена указана неверно');
+
+typeField.addEventListener('change', () => {
+  pristine.validate(priceField);
+});
+
+const checkinField = form.querySelector('#timein');
+const checkoutFirld = form.querySelector('#timeout');
+
+checkinField.addEventListener('change', () => {
+  checkoutFirld.value = checkinField.value;
+});
+
+checkoutFirld.addEventListener('change', () => {
+  checkinField.value = checkoutFirld.value;
+});
+
 form.addEventListener('submit', (evt) => {
   const isValid = pristine.validate();
   if (!isValid) {
