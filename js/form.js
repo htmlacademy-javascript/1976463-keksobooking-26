@@ -1,4 +1,32 @@
+const MAX_PRICE = 100000;
 const form = document.querySelector('.ad-form');
+const formFieldsets = form.querySelectorAll('fieldset');
+const filters = document.querySelector('.map__filters');
+const filtersFieldsets = filters.querySelectorAll('fieldset');
+
+const disableForm = function () {
+  form.classList.add('ad-form--disabled');
+  filters.classList.add('map__filters--disabled');
+  formFieldsets.forEach((fieldset) => {
+    fieldset.disabled = true;
+  });
+  filtersFieldsets.forEach((fieldset) => {
+    fieldset.disabled = true;
+  });
+};
+
+disableForm();
+
+const activateForm = function () {
+  form.classList.remove('ad-form--disabled');
+  filters.classList.remove('map__filters--disabled');
+  formFieldsets.forEach((fieldset) => {
+    fieldset.disabled = false;
+  });
+  filtersFieldsets.forEach((fieldset) => {
+    fieldset.disabled = false;
+  });
+};
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -37,11 +65,11 @@ const priceField = form.querySelector('[name="price"]');
 const typeField = form.querySelector('[name="type"]');
 
 const TypeDictionary = {
-  'bungalow': '0',
-  'flat': '1000',
-  'hotel': '3000',
-  'house': '5000',
-  'palace': '10000'
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000
 };
 
 typeField.addEventListener('change', () => {
@@ -49,7 +77,7 @@ typeField.addEventListener('change', () => {
 });
 
 const validatePrice = function (price) {
-  return price >= TypeDictionary[typeField.value] && price <= 100000;
+  return price >= TypeDictionary[typeField.value] && price <= MAX_PRICE;
 };
 
 pristine.addValidator(priceField, validatePrice, 'цена указана неверно');
@@ -75,3 +103,5 @@ form.addEventListener('submit', (evt) => {
     evt.preventDefault();
   }
 });
+
+export {disableForm, activateForm};
