@@ -1,4 +1,7 @@
-import './form.js';
+import {createMultipleAdverts} from './data.js';
 import {activateMap} from './map.js';
-activateMap();
 
+const ADVERTS_NUMBER = 10;
+const advertsData = createMultipleAdverts(ADVERTS_NUMBER);
+
+activateMap(advertsData);
