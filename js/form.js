@@ -14,7 +14,6 @@ const disableForm = function () {
     fieldset.disabled = true;
   });
 };
-
 disableForm();
 
 const activateForm = function () {
