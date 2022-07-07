@@ -1,7 +1,7 @@
 import {activateForm} from './form.js';
-import {createMultipleAdverts} from './data.js';
 import {generateAdvertElement} from './generator.js';
-const activateMap = function() {
+
+const activateMap = function(advertsData) {
   const addressField = document.querySelector('#address');
   const map = L.map('map-canvas').on('load', () => {
     activateForm();
@@ -38,17 +38,25 @@ const activateMap = function() {
     address = evt.target.getLatLng();
     addressField.value = `${(address.lat).toFixed(5)}, ${(address.lng).toFixed(5)}`;
   });
-  const points = createMultipleAdverts(5);
-  points.forEach((point) => {
-    const { location: {lat, lng} } = point;
+
+  const icon = L.icon({
+    iconUrl: './img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
+  advertsData.forEach((advert) => {
+    const { location: {lat, lng} } = advert;
     const marker = L.marker(
       {
         lat,
         lng,
+      },
+      {
+        icon
       }
     );
 
-    marker.addTo(map).bindPopup(generateAdvertElement(point));
+    marker.addTo(map).bindPopup(generateAdvertElement(advert));
   });
 };
 

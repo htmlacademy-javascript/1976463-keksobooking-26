@@ -3,6 +3,7 @@ const form = document.querySelector('.ad-form');
 const formFieldsets = form.querySelectorAll('fieldset');
 const filters = document.querySelector('.map__filters');
 const filtersFieldsets = filters.querySelectorAll('fieldset');
+const sliderElement = form.querySelector('.ad-form__slider');
 
 const disableForm = function () {
   form.classList.add('ad-form--disabled');
@@ -102,5 +103,29 @@ form.addEventListener('submit', (evt) => {
     evt.preventDefault();
   }
 });
+
+noUiSlider.create(sliderElement, {
+  range: {
+    min: 0,
+    max: 100000,
+  },
+  start: 1000,
+  step: 100,
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      return value.toFixed(0);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
+});
+
+sliderElement.noUiSlider.on('update', () => {
+  priceField.value = sliderElement.noUiSlider.get();
+  pristine.validate(priceField);
+});
+
 
 export {disableForm, activateForm};
