@@ -1,7 +1,4 @@
-import {createMultipleAdverts} from './data.js';
 import {activateMap} from './map.js';
+import {getData} from './api.js';
 
-const ADVERTS_NUMBER = 10;
-const advertsData = createMultipleAdverts(ADVERTS_NUMBER);
-
-activateMap(advertsData);
+getData(activateMap);
