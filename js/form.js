@@ -1,6 +1,6 @@
 import { sendData } from './api.js';
 import {showSuccessMessage, showErrorMessage} from './utils.js';
-import {renderMainPin} from './map.js';
+import {setDefaultCoordinates} from './map.js';
 
 const MAX_PRICE = 100000;
 const form = document.querySelector('.ad-form');
@@ -128,13 +128,21 @@ form.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const isValid = pristine.validate();
   if (isValid) {
-    sendData(showSuccessMessage, showErrorMessage, new FormData(evt.target));
+    sendData(() => {
+      showSuccessMessage();
+      resetForm();
+    }, showErrorMessage, new FormData(evt.target));
   }
 });
 
-function resetForm (map) {
+function resetForm () {
   form.reset();
-  renderMainPin(map);
+  setDefaultCoordinates();
 }
+
+form.addEventListener('reset', (evt) => {
+  evt.preventDefault();
+  resetForm();
+});
 
 export {disableForm, activateForm, resetForm};

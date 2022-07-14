@@ -8,44 +8,46 @@ const DEFAULT_COORDINATES = {
   lng: 139.692,
 };
 
-const activateMap = function() {
-  const map = L.map('map-canvas').on('load', () => {
-    activateForm();
-  }).setView(DEFAULT_COORDINATES, 10);
-  L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    },
-  ).addTo(map);
+const map = L.map('map-canvas').on('load', () => {
+  activateForm();
+}).setView(DEFAULT_COORDINATES, 10);
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+).addTo(map);
+const markerGroup = L.layerGroup().addTo(map);
 
-  return map;
-};
+const addressField = document.querySelector('#address');
+const mainPinIcon = L.icon({
+  iconUrl: './img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
+});
+const mainMarker = L.marker(
+  DEFAULT_COORDINATES,
+  {
+    draggable: true,
+    icon: mainPinIcon
+  },
+);
 
-function renderMainPin (map) {
-  const addressField = document.querySelector('#address');
-  const mainPinIcon = L.icon({
-    iconUrl: './img/main-pin.svg',
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
-  });
-  const mainMarker = L.marker(
-    DEFAULT_COORDINATES,
-    {
-      draggable: true,
-      icon: mainPinIcon
-    },
-  );
-  mainMarker.addTo(map);
-  let address =  mainMarker.getLatLng();
+let address =  mainMarker.getLatLng();
+mainMarker.addTo(markerGroup);
+addressField.value = `${(address.lat).toFixed(COORDINATES_DECIMALS)}, ${(address.lng).toFixed(COORDINATES_DECIMALS)}`;
+mainMarker.on('move', (evt) => {
+  address = evt.target.getLatLng();
   addressField.value = `${(address.lat).toFixed(COORDINATES_DECIMALS)}, ${(address.lng).toFixed(COORDINATES_DECIMALS)}`;
-  mainMarker.on('move', (evt) => {
-    address = evt.target.getLatLng();
-    addressField.value = `${(address.lat).toFixed(COORDINATES_DECIMALS)}, ${(address.lng).toFixed(COORDINATES_DECIMALS)}`;
-  });
+});
+
+function setDefaultCoordinates () {
+  mainMarker.setLatLng(DEFAULT_COORDINATES);
+  address = mainMarker.getLatLng();
+  addressField.value = `${(address.lat).toFixed(COORDINATES_DECIMALS)}, ${(address.lng).toFixed(COORDINATES_DECIMALS)}`;
 }
 
-function renderPins (advertsData, map) {
+function renderPins (advertsData) {
   const icon = L.icon({
     iconUrl: './img/pin.svg',
     iconSize: [40, 40],
@@ -63,8 +65,8 @@ function renderPins (advertsData, map) {
       }
     );
 
-    marker.addTo(map).bindPopup(generateAdvertElement(advert));
+    marker.addTo(markerGroup).bindPopup(generateAdvertElement(advert));
   });
 }
 
-export {activateMap, renderPins, renderMainPin};
+export {renderPins, setDefaultCoordinates};
