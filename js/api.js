@@ -1,5 +1,4 @@
 import { showAlert } from './utils.js';
-import { resetForm } from './form.js';
 
 function getData (cb) {
   fetch('https://26.javascript.pages.academy/keksobooking/data')
