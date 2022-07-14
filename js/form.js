@@ -1,3 +1,7 @@
+import { sendData } from './api.js';
+import {showSuccessMessage, showErrorMessage} from './utils.js';
+import {renderMainPin} from './map.js';
+
 const MAX_PRICE = 100000;
 const form = document.querySelector('.ad-form');
 const formFieldsets = form.querySelectorAll('fieldset');
@@ -97,13 +101,6 @@ checkoutFirld.addEventListener('change', () => {
   checkinField.value = checkoutFirld.value;
 });
 
-form.addEventListener('submit', (evt) => {
-  const isValid = pristine.validate();
-  if (!isValid) {
-    evt.preventDefault();
-  }
-});
-
 noUiSlider.create(sliderElement, {
   range: {
     min: 0,
@@ -127,5 +124,17 @@ sliderElement.noUiSlider.on('update', () => {
   pristine.validate(priceField);
 });
 
+form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const isValid = pristine.validate();
+  if (isValid) {
+    sendData(showSuccessMessage, showErrorMessage, new FormData(evt.target));
+  }
+});
 
-export {disableForm, activateForm};
+function resetForm (map) {
+  form.reset();
+  renderMainPin(map);
+}
+
+export {disableForm, activateForm, resetForm};

@@ -1,4 +1,11 @@
-import {activateMap} from './map.js';
+import {activateMap, renderPins, renderMainPin} from './map.js';
 import {getData} from './api.js';
 
-getData(activateMap);
+const map = activateMap();
+renderMainPin(map);
+
+export {map};
+
+getData((pinsData) => {
+  renderPins(pinsData, map);
+});

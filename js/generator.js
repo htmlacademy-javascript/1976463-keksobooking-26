@@ -6,7 +6,6 @@ const HousingType = {
   HOTEL: 'Отель'
 };
 
-//const testMap = document.querySelector('#map-canvas');
 const similarAdvertTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 function emptyFieldHandler(field, element) {

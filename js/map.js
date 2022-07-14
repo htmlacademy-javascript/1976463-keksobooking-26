@@ -1,14 +1,17 @@
 import {activateForm} from './form.js';
 import {generateAdvertElement} from './generator.js';
 
-const activateMap = function(advertsData) {
-  const addressField = document.querySelector('#address');
+const COORDINATES_DECIMALS = 5;
+
+const DEFAULT_COORDINATES = {
+  lat: 35.6895,
+  lng: 139.692,
+};
+
+const activateMap = function() {
   const map = L.map('map-canvas').on('load', () => {
     activateForm();
-  }).setView({
-    lat: 35.6895,
-    lng: 139.692,
-  }, 10);
+  }).setView(DEFAULT_COORDINATES, 10);
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
@@ -16,16 +19,18 @@ const activateMap = function(advertsData) {
     },
   ).addTo(map);
 
+  return map;
+};
+
+function renderMainPin (map) {
+  const addressField = document.querySelector('#address');
   const mainPinIcon = L.icon({
     iconUrl: './img/main-pin.svg',
     iconSize: [52, 52],
     iconAnchor: [26, 52],
   });
   const mainMarker = L.marker(
-    {
-      lat: 35.6895,
-      lng: 139.692,
-    },
+    DEFAULT_COORDINATES,
     {
       draggable: true,
       icon: mainPinIcon
@@ -33,12 +38,14 @@ const activateMap = function(advertsData) {
   );
   mainMarker.addTo(map);
   let address =  mainMarker.getLatLng();
-  addressField.value = `${(address.lat).toFixed(5)}, ${(address.lng).toFixed(5)}`;
-  mainMarker.on('moveend', (evt) => {
+  addressField.value = `${(address.lat).toFixed(COORDINATES_DECIMALS)}, ${(address.lng).toFixed(COORDINATES_DECIMALS)}`;
+  mainMarker.on('move', (evt) => {
     address = evt.target.getLatLng();
-    addressField.value = `${(address.lat).toFixed(5)}, ${(address.lng).toFixed(5)}`;
+    addressField.value = `${(address.lat).toFixed(COORDINATES_DECIMALS)}, ${(address.lng).toFixed(COORDINATES_DECIMALS)}`;
   });
+}
 
+function renderPins (advertsData, map) {
   const icon = L.icon({
     iconUrl: './img/pin.svg',
     iconSize: [40, 40],
@@ -58,6 +65,6 @@ const activateMap = function(advertsData) {
 
     marker.addTo(map).bindPopup(generateAdvertElement(advert));
   });
-};
+}
 
-export {activateMap};
+export {activateMap, renderPins, renderMainPin};

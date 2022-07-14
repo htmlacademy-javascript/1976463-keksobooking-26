@@ -47,5 +47,38 @@ function showAlert (message) {
   }, ALERT_SHOW_TIME);
 }
 
-export {getRandomInt, getRandomFloat, getRandomElement, getMultipleElements, showAlert};
+const successMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+const errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+
+function closeSuccessMessage (evt) {
+  if (evt.key === 'Escape') {
+    successMessage.remove();
+  }
+}
+
+function closeErrorMessage (evt) {
+  if (evt.key === 'Escape') {
+    errorMessage.remove();
+  }
+}
+
+function showSuccessMessage () {
+  document.body.insertAdjacentElement('beforeend', successMessage);
+  document.addEventListener('keydown', closeSuccessMessage, {once: true});
+  successMessage.addEventListener('click', () => {
+    successMessage.remove();
+    document.removeEventListener('keydown', closeSuccessMessage, {once: true});
+  });
+}
+
+function showErrorMessage () {
+  document.body.insertAdjacentElement('beforeend', errorMessage);
+  document.addEventListener('keydown', closeErrorMessage, {once: true});
+  errorMessage.addEventListener('click', () => {
+    errorMessage.remove();
+    document.removeEventListener('keydown', closeErrorMessage, {once: true});
+  });
+}
+
+export {getRandomInt, getRandomFloat, getRandomElement, getMultipleElements, showAlert, showSuccessMessage, showErrorMessage};
 
