@@ -39,7 +39,9 @@ function generateAdvertElement (advert) {
     popupType.remove();
   }
   const popupCapacity = similarAdvert.querySelector('.popup__text--capacity');
-  if (rooms && guests) {
+  if (guests === 0) {
+    popupCapacity.textContent = 'Не для гостей';
+  } else if (rooms && guests) {
     popupCapacity.textContent = `${rooms} комнаты для ${guests} гостей`;
   } else {
     popupCapacity.remove();

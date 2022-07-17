@@ -80,5 +80,13 @@ function showErrorMessage () {
   });
 }
 
-export {getRandomInt, getRandomFloat, getRandomElement, getMultipleElements, showAlert, showSuccessMessage, showErrorMessage};
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+export {getRandomInt, getRandomFloat, getRandomElement, getMultipleElements, showAlert, showSuccessMessage, showErrorMessage, debounce};
 

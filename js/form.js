@@ -8,29 +8,48 @@ const formFieldsets = form.querySelectorAll('fieldset');
 const filters = document.querySelector('.map__filters');
 const filtersFieldsets = filters.querySelectorAll('fieldset');
 const sliderElement = form.querySelector('.ad-form__slider');
+const resetButton = form.querySelector('.ad-form__reset');
+const submitButton = document.querySelector('.ad-form__submit');
 
-const disableForm = function () {
+function disableForm () {
   form.classList.add('ad-form--disabled');
-  filters.classList.add('map__filters--disabled');
   formFieldsets.forEach((fieldset) => {
     fieldset.disabled = true;
   });
-  filtersFieldsets.forEach((fieldset) => {
-    fieldset.disabled = true;
-  });
-};
-disableForm();
+}
 
-const activateForm = function () {
+function disableFilters () {
+  filters.classList.add('map__filters--disabled');
+  filtersFieldsets.forEach((fieldset) => {
+    fieldset.disabled = true;
+  });
+}
+
+disableForm();
+disableFilters();
+
+function enableSubmitButton (){
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+}
+
+function disableSubmitButton (){
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикуется...';
+}
+function activateForm () {
   form.classList.remove('ad-form--disabled');
-  filters.classList.remove('map__filters--disabled');
   formFieldsets.forEach((fieldset) => {
     fieldset.disabled = false;
   });
+}
+
+function activateFilters () {
+  filters.classList.remove('map__filters--disabled');
   filtersFieldsets.forEach((fieldset) => {
     fieldset.disabled = false;
   });
-};
+}
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -138,11 +157,10 @@ form.addEventListener('submit', (evt) => {
 function resetForm () {
   form.reset();
   setDefaultCoordinates();
+  filters.reset();
 }
 
-form.addEventListener('reset', (evt) => {
-  evt.preventDefault();
-  resetForm();
-});
 
-export {disableForm, activateForm, resetForm};
+resetButton.addEventListener('click', () => resetForm());
+
+export {disableForm, activateForm, resetForm, enableSubmitButton, disableSubmitButton, activateFilters};

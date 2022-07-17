@@ -47,12 +47,15 @@ function setDefaultCoordinates () {
   addressField.value = `${(address.lat).toFixed(COORDINATES_DECIMALS)}, ${(address.lng).toFixed(COORDINATES_DECIMALS)}`;
 }
 
+const icon = L.icon({
+  iconUrl: './img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
 function renderPins (advertsData) {
-  const icon = L.icon({
-    iconUrl: './img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
+  markerGroup.clearLayers();
+  mainMarker.addTo(markerGroup);
   advertsData.forEach((advert) => {
     const { location: {lat, lng} } = advert;
     const marker = L.marker(
@@ -64,7 +67,6 @@ function renderPins (advertsData) {
         icon
       }
     );
-
     marker.addTo(markerGroup).bindPopup(generateAdvertElement(advert));
   });
 }
