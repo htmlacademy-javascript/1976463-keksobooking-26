@@ -8,7 +8,8 @@ const formFieldsets = form.querySelectorAll('fieldset');
 const filters = document.querySelector('.map__filters');
 const filtersFieldsets = filters.querySelectorAll('fieldset');
 const sliderElement = form.querySelector('.ad-form__slider');
-const submitButton = document.querySelector('.ad-form__submit');
+const submitButton = form.querySelector('.ad-form__submit');
+const resetButton = form.querySelector('.ad-form__reset');
 
 function disableForm () {
   form.classList.add('ad-form--disabled');
@@ -159,13 +160,13 @@ const setSubmitForm = (pins) => {
 };
 
 const setResetForm = (pins) => {
-  form.addEventListener('reset', (evt) => {
-    evt.preventDefault();
+  resetButton.addEventListener('click', () => {
     form.reset();
     setDefaultCoordinates();
     filters.reset();
     renderPins(pins);
   });
 };
+
 
 export {disableForm, activateForm, enableSubmitButton, disableSubmitButton, activateFilters, setResetForm, setSubmitForm};
