@@ -9,9 +9,9 @@ avatarChooser.addEventListener('change', () => {
   const avatar = avatarChooser.files[0];
   const avatarName = avatar.name.toLowerCase();
 
-  const matches = FILE_TYPES.some((it) => {
-    return avatarName.endsWith(it); //1
-  });
+  const matches = FILE_TYPES.some((it) =>
+    avatarName.endsWith(it)
+  );
 
   if (matches) {
     avatarPreview.src = URL.createObjectURL(avatar);
@@ -23,7 +23,7 @@ photoChooser.addEventListener('change', () => {
   const photoName = photo.name.toLowerCase();
 
   const matches = FILE_TYPES.some((it) => {
-    return photoName.endsWith(it);
+    photoName.endsWith(it);
   });
 
   if (matches) {
