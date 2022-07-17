@@ -1,32 +1,55 @@
+import { sendData } from './api.js';
+import {showSuccessMessage, showErrorMessage} from './utils.js';
+import {setDefaultCoordinates, renderPins} from './map.js';
+
 const MAX_PRICE = 100000;
 const form = document.querySelector('.ad-form');
 const formFieldsets = form.querySelectorAll('fieldset');
 const filters = document.querySelector('.map__filters');
 const filtersFieldsets = filters.querySelectorAll('fieldset');
 const sliderElement = form.querySelector('.ad-form__slider');
+const submitButton = form.querySelector('.ad-form__submit');
+const resetButton = form.querySelector('.ad-form__reset');
 
-const disableForm = function () {
+function disableForm () {
   form.classList.add('ad-form--disabled');
-  filters.classList.add('map__filters--disabled');
   formFieldsets.forEach((fieldset) => {
     fieldset.disabled = true;
   });
-  filtersFieldsets.forEach((fieldset) => {
-    fieldset.disabled = true;
-  });
-};
-disableForm();
+}
 
-const activateForm = function () {
+function disableFilters () {
+  filters.classList.add('map__filters--disabled');
+  filtersFieldsets.forEach((fieldset) => {
+    fieldset.disabled = true;
+  });
+}
+
+disableForm();
+disableFilters();
+
+function enableSubmitButton (){
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+}
+
+function disableSubmitButton (){
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикуется...';
+}
+function activateForm () {
   form.classList.remove('ad-form--disabled');
-  filters.classList.remove('map__filters--disabled');
   formFieldsets.forEach((fieldset) => {
     fieldset.disabled = false;
   });
+}
+
+function activateFilters () {
+  filters.classList.remove('map__filters--disabled');
   filtersFieldsets.forEach((fieldset) => {
     fieldset.disabled = false;
   });
-};
+}
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -97,13 +120,6 @@ checkoutFirld.addEventListener('change', () => {
   checkinField.value = checkoutFirld.value;
 });
 
-form.addEventListener('submit', (evt) => {
-  const isValid = pristine.validate();
-  if (!isValid) {
-    evt.preventDefault();
-  }
-});
-
 noUiSlider.create(sliderElement, {
   range: {
     min: 0,
@@ -127,5 +143,30 @@ sliderElement.noUiSlider.on('update', () => {
   pristine.validate(priceField);
 });
 
+const setSubmitForm = (pins) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      sendData(() => {
+        showSuccessMessage();
+        form.reset();
+        setDefaultCoordinates();
+        filters.reset();
+        renderPins(pins);
+      }, showErrorMessage, new FormData(evt.target));
+    }
+  });
+};
 
-export {disableForm, activateForm};
+const setResetForm = (pins) => {
+  resetButton.addEventListener('click', () => {
+    form.reset();
+    setDefaultCoordinates();
+    filters.reset();
+    renderPins(pins);
+  });
+};
+
+
+export {disableForm, activateForm, enableSubmitButton, disableSubmitButton, activateFilters, setResetForm, setSubmitForm};
