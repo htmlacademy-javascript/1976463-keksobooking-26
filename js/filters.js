@@ -50,7 +50,7 @@ function filterAdverts (adverts) {
         selectedFeatures.push(feature.value);
       }
     });
-    if(!(selectedFeatures.every((feature)=> features?.includes(feature)))) {  //3
+    if(!(selectedFeatures.every((feature)=> features && features.includes(feature)))) {  //3
       isSutible = false;
     }
     if (isSutible) {
