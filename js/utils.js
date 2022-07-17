@@ -51,13 +51,13 @@ const successMessage = document.querySelector('#success').content.querySelector(
 const errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
 
 function closeSuccessMessage (evt) {
-  if (evt.key === 'Escape') {
+  if (evt.key === 'Escape' || evt.key === 'Esc') {
     successMessage.remove();
   }
 }
 
 function closeErrorMessage (evt) {
-  if (evt.key === 'Escape') {
+  if (evt.key === 'Escape' || evt.key === 'Esc') {
     errorMessage.remove();
   }
 }

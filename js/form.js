@@ -1,6 +1,6 @@
 import { sendData } from './api.js';
 import {showSuccessMessage, showErrorMessage} from './utils.js';
-import {setDefaultCoordinates} from './map.js';
+import {setDefaultCoordinates, renderPins} from './map.js';
 
 const MAX_PRICE = 100000;
 const form = document.querySelector('.ad-form');
@@ -8,7 +8,6 @@ const formFieldsets = form.querySelectorAll('fieldset');
 const filters = document.querySelector('.map__filters');
 const filtersFieldsets = filters.querySelectorAll('fieldset');
 const sliderElement = form.querySelector('.ad-form__slider');
-const resetButton = form.querySelector('.ad-form__reset');
 const submitButton = document.querySelector('.ad-form__submit');
 
 function disableForm () {
@@ -143,24 +142,30 @@ sliderElement.noUiSlider.on('update', () => {
   pristine.validate(priceField);
 });
 
-form.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const isValid = pristine.validate();
-  if (isValid) {
-    sendData(() => {
-      showSuccessMessage();
-      resetForm();
-    }, showErrorMessage, new FormData(evt.target));
-  }
-});
+const setSubmitForm = (pins) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      sendData(() => {
+        showSuccessMessage();
+        form.reset();
+        setDefaultCoordinates();
+        filters.reset();
+        renderPins(pins);
+      }, showErrorMessage, new FormData(evt.target));
+    }
+  });
+};
 
-function resetForm () {
-  form.reset();
-  setDefaultCoordinates();
-  filters.reset();
-}
+const setResetForm = (pins) => {
+  form.addEventListener('reset', (evt) => {
+    evt.preventDefault();
+    form.reset();
+    setDefaultCoordinates();
+    filters.reset();
+    renderPins(pins);
+  });
+};
 
-
-resetButton.addEventListener('click', () => resetForm());
-
-export {disableForm, activateForm, resetForm, enableSubmitButton, disableSubmitButton, activateFilters};
+export {disableForm, activateForm, enableSubmitButton, disableSubmitButton, activateFilters, setResetForm, setSubmitForm};

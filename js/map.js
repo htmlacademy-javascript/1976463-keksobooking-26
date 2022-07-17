@@ -3,14 +3,14 @@ import {generateAdvertElement} from './generator.js';
 
 const COORDINATES_DECIMALS = 5;
 
-const DEFAULT_COORDINATES = {
+const DefaultCoordinates = {
   lat: 35.6895,
   lng: 139.692,
 };
 
 const map = L.map('map-canvas').on('load', () => {
   activateForm();
-}).setView(DEFAULT_COORDINATES, 10);
+}).setView(DefaultCoordinates, 10);
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
@@ -26,7 +26,7 @@ const mainPinIcon = L.icon({
   iconAnchor: [26, 52],
 });
 const mainMarker = L.marker(
-  DEFAULT_COORDINATES,
+  DefaultCoordinates,
   {
     draggable: true,
     icon: mainPinIcon
@@ -42,7 +42,7 @@ mainMarker.on('move', (evt) => {
 });
 
 function setDefaultCoordinates () {
-  mainMarker.setLatLng(DEFAULT_COORDINATES);
+  mainMarker.setLatLng(DefaultCoordinates);
   address = mainMarker.getLatLng();
   addressField.value = `${(address.lat).toFixed(COORDINATES_DECIMALS)}, ${(address.lng).toFixed(COORDINATES_DECIMALS)}`;
 }

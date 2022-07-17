@@ -6,17 +6,17 @@ const filtersGuests = filters.querySelector('#housing-guests');
 const filtersFeatures = filters.querySelectorAll('.map__checkbox');
 
 const PriceRange = {
-  LOW: {
-    MIN: 0,
-    MAX: 10000,
+  low: {
+    min: 0,
+    max: 10000,
   },
-  MIDDLE: {
-    MIN: 10000,
-    MAX: 50000,
+  middle: {
+    min: 10000,
+    max: 50000,
   },
-  HIGH: {
-    MIN: 50000,
-    MAX: 100000,
+  high: {
+    min: 50000,
+    max: 100000,
   }
 };
 
@@ -34,7 +34,7 @@ function filterAdverts (adverts) {
       isSutible = false;
     }
     if (filtersPrice.value !== 'any') {
-      if(!(price >= PriceRange[filtersPrice.value.toUpperCase()].MIN && price < PriceRange[filtersPrice.value.toUpperCase()].MAX)) {
+      if(!(price >= PriceRange[filtersPrice.value].min && price < PriceRange[filtersPrice.value].max)) {
         isSutible = false;
       }
     }
