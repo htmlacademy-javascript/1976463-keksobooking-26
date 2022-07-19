@@ -68,7 +68,7 @@ function validateTitle () {
   return titleValue.length >= TitleLength.MIN && titleValue.length <= TitleLength.MAX;
 }
 
-pristine.addValidator(titleField, validateTitle);
+pristine.addValidator(titleField, validateTitle, 'Неподходящий заголовок');
 
 const roomsField = form.querySelector('[name="rooms"]');
 const capacityField = form.querySelector('[name="capacity"]');
