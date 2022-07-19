@@ -3,6 +3,10 @@ import {showSuccessMessage, showErrorMessage} from './utils.js';
 import {setDefaultCoordinates, renderPins} from './map.js';
 
 const MAX_PRICE = 100000;
+const TitleLength = {
+  MAX: 100,
+  MIN: 30
+};
 const form = document.querySelector('.ad-form');
 const formFieldsets = form.querySelectorAll('fieldset');
 const filters = document.querySelector('.map__filters');
@@ -60,10 +64,11 @@ const pristine = new Pristine(form, {
 const titleField = form.querySelector('#title');
 
 function validateTitle () {
-  return titleField.value.length >= 30 && titleField.value.length < 100 && titleField.value.trim().length !== 0;
+  const titleValue = titleField.value.trim();
+  return titleValue.length >= TitleLength.MIN && titleValue.length <= TitleLength.MAX;
 }
 
-pristine.addValidator(titleField, validateTitle, 'Неподходящий заголовок');
+pristine.addValidator(titleField, validateTitle);
 
 const roomsField = form.querySelector('[name="rooms"]');
 const capacityField = form.querySelector('[name="capacity"]');
