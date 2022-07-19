@@ -57,6 +57,14 @@ const pristine = new Pristine(form, {
   errorTextClass: 'validation__error-text'}
 );
 
+const titleField = form.querySelector('#title');
+
+function validateTitle () {
+  return titleField.value.length >= 30 && titleField.value.length < 100 && titleField.value.trim().length !== 0;
+}
+
+pristine.addValidator(titleField, validateTitle, 'Неподходящий заголовок');
+
 const roomsField = form.querySelector('[name="rooms"]');
 const capacityField = form.querySelector('[name="capacity"]');
 
@@ -153,7 +161,9 @@ const setSubmitForm = (pins) => {
         form.reset();
         setDefaultCoordinates();
         filters.reset();
-        renderPins(pins);
+        if(pins) {
+          renderPins(pins);
+        }
       }, showErrorMessage, new FormData(evt.target));
     }
   });
@@ -164,7 +174,9 @@ const setResetForm = (pins) => {
     form.reset();
     setDefaultCoordinates();
     filters.reset();
-    renderPins(pins);
+    if(pins) {
+      renderPins(pins);
+    }
   });
 };
 
