@@ -1,20 +1,29 @@
 import { showAlert } from './utils.js';
-import { enableSubmitButton, disableSubmitButton, activateFilters } from './form.js';
+import { enableSubmitButton, disableSubmitButton, activateFilters, setResetForm, setSubmitForm } from './form.js';
+
+const ServerUrl = {
+  LOAD: 'https://26.javascript.pages.academy/keksobooking/data',
+  UPLOAD: 'https://26.javascript.pages.academy/keksobooking'
+};
 
 
 function getData (cb) {
-  fetch('https://26.javascript.pages.academy/keksobooking/data')
+  fetch(ServerUrl.LOAD)
     .then((response) => response.json())
     .then((data) => {
       activateFilters();
       cb(data);
     })
-    .catch(() => showAlert('Не удалось загрузить данные с сервера!'));
+    .catch(() => {
+      showAlert('Не удалось загрузить данные с сервера!');
+      setResetForm();
+      setSubmitForm();
+    });
 }
 
 function sendData(onSuccess, onFail, body) {
   fetch(
-    'https://26.javascript.pages.academy/keksobooking',
+    ServerUrl.UPLOAD,
     {
       method: 'POST',
       body,
